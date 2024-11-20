@@ -31,3 +31,4 @@ format: html
 - On line 34 of [the Dockerfile](./Dockerfile#L34), I've installed a bunch of packages I've used for this class.
 	- This was to save time so they don't have to be installed every time the notebook is rerendered.
 	- If you have more/less packages you want to be installed, make edits to that line rather than installing packages in your notebook.
+- I've hardcoded port 3838 for no good reason. If you want to use a different port, use a global find/replace.
