@@ -29,9 +29,21 @@ RUN wget -O /tmp/quarto.deb https://github.com/quarto-dev/quarto-cli/releases/do
     rm /tmp/quarto.deb
 
 # install a bunch of packages that might be necessary for homework
-# if you need more or less, make edits to this line and rerun ./run.sh
+# if you need more or less, make edits to these lines and rerun ./run.sh
 # then wait for R and docker to rebuild...it'll take a while
-RUN R -e "install.packages(c('rmarkdown', 'tidyverse', 'assertthat', 'effsize', 'jsonlite', 'GGally', 'dplyr', 'DescTools'), repos='https://cran.rstudio.com/', dependencies=TRUE)"
+RUN R -e "install.packages('rmarkdown', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+RUN R -e "install.packages('tidyverse', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+RUN R -e "install.packages('assertthat', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+RUN R -e "install.packages('effsize', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+RUN R -e "install.packages('jsonlite', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+RUN R -e "install.packages('microbenchmark', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+RUN R -e "install.packages('GGally', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+RUN R -e "install.packages('dplyr', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+RUN R -e "install.packages('DescTools', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+RUN R -e "install.packages('sparklyr', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+RUN R -e "install.packages('Rcpp', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+
+# RUN R -e "install.packages(c('rmarkdown', 'tidyverse', 'assertthat', 'effsize', 'jsonlite', 'GGally', 'dplyr', 'DescTools', 'sparklyr', 'Rcpp'), repos='https://cran.rstudio.com/', dependencies=TRUE)"
 
 WORKDIR /app
 EXPOSE 3838
