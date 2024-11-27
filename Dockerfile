@@ -24,13 +24,16 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # quarto 1.5.57 picked because it was the latest stable at the time of making this
-RUN wget -O /tmp/quarto.deb https://github.com/quarto-dev/quarto-cli/releases/download/v1.5.57/quarto-1.5.57-linux-amd64.deb && \
+ENV QUARTO_VERSION=1.5.57
+RUN ARCH=$(dpkg --print-architecture) && \
+    echo "Detected architecture: $ARCH" && \
+    wget -O /tmp/quarto.deb "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-${ARCH}.deb" && \
     dpkg -i /tmp/quarto.deb && \
     rm /tmp/quarto.deb
 
 # install a bunch of packages that might be necessary for homework
 # if you need more or less, make edits to these lines and rerun ./run.sh
-# then wait for R and docker to rebuild...it'll take a while
+# then wait for R and docker to rebuild...it'll take a super long time (~25 min)
 RUN R -e "install.packages('rmarkdown', repos='https://cran.rstudio.com/', dependencies=TRUE)"
 RUN R -e "install.packages('tidyverse', repos='https://cran.rstudio.com/', dependencies=TRUE)"
 RUN R -e "install.packages('assertthat', repos='https://cran.rstudio.com/', dependencies=TRUE)"
@@ -42,8 +45,6 @@ RUN R -e "install.packages('dplyr', repos='https://cran.rstudio.com/', dependenc
 RUN R -e "install.packages('DescTools', repos='https://cran.rstudio.com/', dependencies=TRUE)"
 RUN R -e "install.packages('sparklyr', repos='https://cran.rstudio.com/', dependencies=TRUE)"
 RUN R -e "install.packages('Rcpp', repos='https://cran.rstudio.com/', dependencies=TRUE)"
-
-# RUN R -e "install.packages(c('rmarkdown', 'tidyverse', 'assertthat', 'effsize', 'jsonlite', 'GGally', 'dplyr', 'DescTools', 'sparklyr', 'Rcpp'), repos='https://cran.rstudio.com/', dependencies=TRUE)"
 
 WORKDIR /app
 EXPOSE 3838
