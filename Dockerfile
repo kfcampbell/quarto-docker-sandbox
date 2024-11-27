@@ -21,7 +21,10 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libglpk-dev \
     libgmp3-dev \
+    openjdk-8-jdk \
     && rm -rf /var/lib/apt/lists/*
+
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # quarto 1.5.57 picked because it was the latest stable at the time of making this
 ENV QUARTO_VERSION=1.5.57
@@ -45,6 +48,9 @@ RUN R -e "install.packages('dplyr', repos='https://cran.rstudio.com/', dependenc
 RUN R -e "install.packages('DescTools', repos='https://cran.rstudio.com/', dependencies=TRUE)"
 RUN R -e "install.packages('sparklyr', repos='https://cran.rstudio.com/', dependencies=TRUE)"
 RUN R -e "install.packages('Rcpp', repos='https://cran.rstudio.com/', dependencies=TRUE)"
+
+RUN R -e "library(sparklyr); \
+          spark_install(version='3.5.3', hadoop_version='3')"
 
 WORKDIR /app
 EXPOSE 3838
