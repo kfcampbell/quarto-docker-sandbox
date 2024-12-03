@@ -47,6 +47,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set Short SHA
+        run: echo "SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
+      - name: Set ARCH
+        env:
+          PLATFORM: ${{ matrix.platform }}
+        run: echo "ARCH=$(echo $PLATFORM | cut -d'/' -f2)" >> $GITHUB_ENV
+
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
         with:
@@ -55,6 +63,6 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ github.repository }}:${{ inputs.image_tag }}
-            ghcr.io/${{ github.repository }}:${{ github.sha.substr(0,7) }}
+            ghcr.io/${{ github.repository }}:${{ env.SHORT_SHA }}
           build-args: |
-            ARCH=${{ matrix.platform.split('/')[-1] }}
+            ARCH=${{ env.ARCH }}
