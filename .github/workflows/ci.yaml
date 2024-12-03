@@ -12,7 +12,6 @@ on:
       commit_sha:
         description: 'Commit SHA to build the image from'
         required: false
-        default: '${{ github.sha }}'
       image_tag:
         description: 'Desired Docker image tag'
         required: false
@@ -31,7 +30,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.commit_sha }}
+          ref: ${{ inputs.commit_sha != '' && inputs.commit_sha || github.sha }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -48,9 +47,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set Short SHA
-        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
-
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
         with:
@@ -59,7 +55,6 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ github.repository }}:${{ inputs.image_tag }}
-            ghcr.io/${{ github.repository }}:${{ env.SHORT_SHA }}
-          # the ##*/ grabs the "arm64" from "linux/arm64"
+            ghcr.io/${{ github.repository }}:${{ github.sha.substr(0,7) }}
           build-args: |
-            ARCH=${{ matrix.platform##*/ }}
+            ARCH=${{ matrix.platform.split('/')[-1] }}
