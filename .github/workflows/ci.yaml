@@ -20,7 +20,6 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
 
     strategy:
       matrix:

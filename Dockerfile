@@ -1,4 +1,4 @@
-# rocker seems like they make better images than r-base, see
+# rocker seems like they make better images than r-base; see
 # https://github.com/rocker-org/rocker-versioned2?tab=readme-ov-file#overview for reasons
 FROM rocker/r-ver:4.3.0
 
@@ -36,7 +36,7 @@ RUN wget -O /tmp/quarto.deb "https://github.com/quarto-dev/quarto-cli/releases/d
 
 # install a bunch of packages that might be necessary for homework
 # if you need more or less, make edits to these lines and rerun ./run.sh
-# then wait for R and docker to rebuild...it'll take a super long time (~25 min)
+# then wait for R and docker to rebuild...it'll take a super long time
 RUN R -e "install.packages('rmarkdown', repos='https://cran.rstudio.com/', dependencies=TRUE)"
 RUN R -e "install.packages('tidyverse', repos='https://cran.rstudio.com/', dependencies=TRUE)"
 RUN R -e "install.packages('assertthat', repos='https://cran.rstudio.com/', dependencies=TRUE)"

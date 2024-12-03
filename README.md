@@ -2,10 +2,25 @@
 
 I made this for HW2 in René Just's CSE P 590 course at the University of Washington, [Building Data Analysis Pipelines](https://homes.cs.washington.edu/~rjust/courses/CSEP590/). I got tired of fighting with R dependencies on my local machines and decided to fight with them once in Docker and just carry that everywhere.
 
+## Quick Start
+
+Navigate to a directory that contains your `HW2.qmd` file and run the following command:
+
+```bash
+docker run -it --rm \
+    -p 3838:3838 \
+    -v "$(pwd):/app" \
+    ghcr.io/kfcampbell/quarto-docker-sandbox:latest \
+    quarto preview /app/HW2.qmd --host 0.0.0.0 --port 3838
+```
+
+The first time you'll need to download the Docker image (~3.3GB), but after that it'll be cached on your system and `quarto` will begin rendering your notebook immediately.
+
 ## Steps for HW2 Users
 
-1. Copy your .qmd file into the current directory and name it HW2.qmd (or globally find/replace HW2.qmd to your preferred filename). If you have an .ipynb file from Google Colab, convert it using `quarto convert {filename}`.
-2. Ensure your .qmd file has a valid header. Mine looks like:
+1. Clone this repo.
+2. Copy your .qmd file into the current directory and name it HW2.qmd (or globally find/replace HW2.qmd to your preferred filename). If you have an .ipynb file from Google Colab, convert it using `quarto convert {filename}`.
+3. Ensure your .qmd file has a valid header. Mine looks like:
 ```yaml
 ---
 title: "HW2"
@@ -19,7 +34,7 @@ eval: true
 format: html
 ---
 ```
-3. Execute the script: `./run.sh`.
+4. Execute the script: `./run.sh`.
 - This will build the Docker image and run it locally. The first build will take a long time (~40 minutes for me), but after that with cached images it will be super quick.
 - Navigate to http://localhost:3838 in your browser to see your rendered Quarto notebook. It will reload your changes each time you edit and save your HW2.qmd file.
 
