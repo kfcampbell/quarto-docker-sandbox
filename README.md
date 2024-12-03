@@ -5,7 +5,7 @@ I made this for HW2 in [René Just's CSE P 590](https://homes.cs.washington.edu/
 ## Steps for HW2 Users
 
 1. Copy your .qmd file into the current directory and name it HW2.qmd (or globally find/replace HW2.qmd to your preferred filename). If you have an .ipynb file from Google Colab, convert it using `quarto convert {filename}`.
-2. Ensure your .qmd file has a valid header: mine looks like
+2. Ensure your .qmd file has a valid header. Mine looks like:
 ```yaml
 ---
 title: "HW2"

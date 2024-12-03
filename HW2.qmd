@@ -1,0 +1,27 @@
+---
+title: "Quarto / R / Docker Sandbox"
+jupyter:
+  kernelspec:
+    display_name: R
+    name: ir
+    language: R
+engine: knitr
+eval: true
+format: html
+---
+
+Here's a super basic computation in R!
+
+```{r}
+#| label: basic-computation
+v <- c(1, 2, 3)
+m <- mean(v)
+print(m)
+```
+
+Let's look at the `mtcars` dataset.
+
+```{r}
+#| label: head-mtcars
+head(mtcars)
+```
