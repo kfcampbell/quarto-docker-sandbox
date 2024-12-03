@@ -1,6 +1,8 @@
-# rocker seems like they make better images than r-base
+# rocker seems like they make better images than r-base, see
+# https://github.com/rocker-org/rocker-versioned2?tab=readme-ov-file#overview for reasons
 FROM rocker/r-ver:4.3.0
 
+ARG ARCH=amd64
 ENV DEBIAN_FRONTEND=noninteractive
 
 # install a bunch of dependencies for quarto and R
@@ -24,13 +26,11 @@ RUN apt-get update && apt-get install -y \
     openjdk-8-jdk \
     && rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-$(dpkg --print-architecture)"
+ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-${ARCH}"
 
 # quarto 1.5.57 picked because it was the latest stable at the time of making this
 ENV QUARTO_VERSION=1.5.57
-RUN ARCH=$(dpkg --print-architecture) && \
-    echo "Detected architecture: $ARCH" && \
-    wget -O /tmp/quarto.deb "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-${ARCH}.deb" && \
+RUN wget -O /tmp/quarto.deb "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-${ARCH}.deb" && \
     dpkg -i /tmp/quarto.deb && \
     rm /tmp/quarto.deb
 
