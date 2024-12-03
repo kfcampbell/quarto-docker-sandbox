@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
     openjdk-8-jdk \
     && rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-$(dpkg --print-architecture)"
 
 # quarto 1.5.57 picked because it was the latest stable at the time of making this
 ENV QUARTO_VERSION=1.5.57
