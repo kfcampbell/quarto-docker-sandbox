@@ -20,7 +20,7 @@ format: html
 ---
 ```
 3. Execute the script: `./run.sh`.
-- This will build the Docker image and run it locally. The first build will take a long time, but after that with cached images it will be super quick.
+- This will build the Docker image and run it locally. The first build will take a long time (~30 minutes for me), but after that with cached images it will be super quick.
 - Navigate to http://localhost:3838 in your browser to see your rendered Quarto notebook. It will reload your changes each time you edit and save your HW2.qmd file.
 
 ## Notes
@@ -28,7 +28,7 @@ format: html
 - You must have Docker installed for this to work.
 - The process will live-reload and re-render your notebook.
 - It can be stopped with Control+C (on Linux + Windows) or Command+C (on Mac).
-- On line 34 of [the Dockerfile](./Dockerfile#L34), I've installed a bunch of packages I've used for this class.
+- Starting on line 40 of [the Dockerfile](./Dockerfile#L40), I've installed a bunch of packages I've used for this class.
 	- This was to save time so they don't have to be installed every time the notebook is rerendered.
-	- If you have more/less packages you want to be installed, make edits to that line rather than installing packages in your notebook.
+	- If you have more/less packages you want to be installed, make edits to what comes after line rather than installing packages in your notebook.
 - I've hardcoded port 3838 for no good reason. If you want to use a different port, use a global find/replace.
