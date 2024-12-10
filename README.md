@@ -4,6 +4,8 @@ I made this for HW2 in René Just's CSE P 590 course at the University of Washin
 
 ## Quick Start
 
+Since GitHub Actions runners are not available in `arm64` for open source repos yet and emulation is too slow to build the image, this only works for `amd64` architecture right now. You can find out which architecture you have by running `dpkg --print-architecture` from a terminal. 
+
 Navigate to a directory that contains your `HW2.qmd` file and run the following command:
 
 ```bash
