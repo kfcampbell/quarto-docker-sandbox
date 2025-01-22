@@ -47,7 +47,7 @@ jobs:
             echo "IMAGE_TAG=latest" >> $GITHUB_ENV
           fi
 
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: ${{ env.COMMIT_SHA }}
@@ -62,13 +62,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract ARCH
+        run: |
+          ARCH=$(echo "${{ matrix.platform }}" | cut -d'/' -f2)
+          echo "ARCH=$ARCH" >> $GITHUB_ENV
+
       - name: Build and Push Architecture-Specific Image
         uses: docker/build-push-action@v4
         with:
           context: .
           platforms: ${{ matrix.platform }}
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}-${{ matrix.platform }}
+          # tag includes the architecture at the end, but no slash
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}-${{ env.ARCH }}
 
   create-manifest:
     runs-on: ubuntu-latest
@@ -87,7 +94,7 @@ jobs:
       - name: Create and Push Multi-Arch Manifest
         run: |
           docker manifest create ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }} \
-            --amend ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}-linux/amd64 \
-            --amend ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}-linux/arm64
+            --amend ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}-amd64 \
+            --amend ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}-arm64
 
           docker manifest push ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}
