@@ -64,6 +64,8 @@ jobs:
 
       - name: Extract ARCH
         run: |
+          # matrix.platform is something like "linux/arm64".
+          # we just want the "arm64" part for the Quarto .deb.
           ARCH=$(echo "${{ matrix.platform }}" | cut -d'/' -f2)
           echo "ARCH=$ARCH" >> $GITHUB_ENV
 
@@ -73,9 +75,10 @@ jobs:
           context: .
           platforms: ${{ matrix.platform }}
           push: true
-          # tag includes the architecture at the end, but no slash
           tags: |
             ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }}-${{ env.ARCH }}
+          build-args: |
+            ARCH=${{ env.ARCH }}
 
   create-manifest:
     runs-on: ubuntu-latest

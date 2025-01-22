@@ -2,7 +2,7 @@
 # https://github.com/rocker-org/rocker-versioned2?tab=readme-ov-file#overview for reasons
 FROM rocker/r-ver:4.3.0
 
-ARG ARCH=amd64
+ARG ARCH
 ENV DEBIAN_FRONTEND=noninteractive
 
 # install a bunch of dependencies for quarto and R
