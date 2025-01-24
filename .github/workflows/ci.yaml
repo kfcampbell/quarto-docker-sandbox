@@ -129,7 +129,7 @@ jobs:
 
   create-manifest:
     name: Create Multi-Arch Manifests
-    needs: [build-amd64, build-arm64]
+    needs: [build-amd64, build-arm64, set-vars]
     runs-on: ubuntu-latest
 
     steps:
