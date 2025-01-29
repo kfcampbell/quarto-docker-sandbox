@@ -93,6 +93,9 @@ jobs:
             ghcr.io/${{ github.repository }}:${{ needs.set-vars.outputs.short_sha }}-amd64
           build-args: |
             ARCH=amd64
+          # Disable provenance and SBOM to prevent manifest lists
+          provenance: false
+          sbom: false
 
   build-arm64:
     name: Build arm64
@@ -126,6 +129,8 @@ jobs:
             ghcr.io/${{ github.repository }}:${{ needs.set-vars.outputs.short_sha }}-arm64
           build-args: |
             ARCH=arm64
+          provenance: false
+          sbom: false
 
   create-manifest:
     name: Create Multi-Arch Manifests
